@@ -1,7 +1,7 @@
 <?xml version='1.0' encoding='utf-8'?>
 <resources>
-    <string name="app_name">背题助手</string>
-    <string name="title_activity_main">背题助手</string>
-    <string name="package_name">com.beiti.assistant</string>
-    <string name="custom_url_scheme">com.beiti.assistant</string>
+    <string name="app_name">深题</string>
+    <string name="title_activity_main">深题</string>
+    <string name="package_name">com.deepquiz.app</string>
+    <string name="custom_url_scheme">com.deepquiz.app</string>
 </resources>

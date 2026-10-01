@@ -7,7 +7,7 @@ function ProgressHeader({ current, total, todayReviewed, masteryRate }) {
   return (
     <header className="progress-header">
       <div className="header-top">
-        <h1 className="header-title">背题助手</h1>
+        <h1 className="header-title">深题</h1>
         <div className="today-badge">
           <span className="today-icon">📚</span>
           <span className="today-count">{todayReviewed}</span>

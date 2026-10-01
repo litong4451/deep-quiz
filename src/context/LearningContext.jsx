@@ -1,6 +1,6 @@
 import React, { createContext, useContext, useReducer } from 'react'
 
-const STORAGE_KEY = 'beiti_data'
+const STORAGE_KEY = 'deepquiz_data'
 
 const initialState = {
   questionBanks: [],

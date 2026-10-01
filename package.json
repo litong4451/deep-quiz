@@ -1,9 +1,9 @@
 {
-  "name": "beiti-assistant",
-  "productName": "背题助手",
+  "name": "deep-quiz",
+  "productName": "深题",
   "private": true,
   "version": "1.0.0",
-  "description": "一款专注于深度学习的背题应用",
+  "description": "一款专注于深度学习的深题应用",
   "main": "electron/main.js",
   "scripts": {
     "dev": "vite",
@@ -32,8 +32,8 @@
     "vite": "^5.1.0"
   },
   "build": {
-    "appId": "com.beiti.assistant",
-    "productName": "背题助手",
+    "appId": "com.deepquiz.app",
+    "productName": "深题",
     "directories": {
       "output": "release"
     },

@@ -1,4 +1,4 @@
-package com.beiti.assistant;
+package com.deepquiz.app;
 
 import com.getcapacitor.BridgeActivity;
 

@@ -1,4 +1,4 @@
-# 背题助手 - APK 一键构建方案
+# 深题 - APK 一键构建方案
 
 ## 🚀 方案：推送到 GitHub，自动构建 APK
 
@@ -20,7 +20,7 @@ git push -u origin main
 ### 3. 下载 APK
 构建完成后（约 5-10 分钟）：
 - 点击 Actions 页面的最新构建记录
-- 在 Artifacts 区域下载 `beiti-assistant-apk`
+- 在 Artifacts 区域下载 `deep-quiz-apk`
 - 解压得到 `app-debug.apk`，直接安装到手机！
 
 ## 📁 我为你准备的文件

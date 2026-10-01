@@ -1,4 +1,4 @@
-# 🎉 背题助手 - APK 打包就绪！
+# 🎉 深题 - APK 打包就绪！
 
 ## ⚠️ 重要说明
 
@@ -32,7 +32,7 @@ android/app/build/outputs/apk/debug/app-debug.apk
 
 ## ✅ 已完成的工作
 
-- ✅ 完整的 React 背题应用源码
+- ✅ 完整的 React 深题应用源码
 - ✅ Android 项目配置（`android/` 文件夹）
 - ✅ 所有资源文件、图标、启动画面
 - ✅ Capacitor 配置
@@ -81,6 +81,6 @@ git push -u origin master
 2. 用 Android Studio 打开 `android` 文件夹
 3. 点击 "Build APK"
 
-**3 步，5 分钟，获得你的专属背题助手 APK！** 📱
+**3 步，5 分钟，获得你的专属深题 APK！** 📱
 
 祝使用愉快！💪

@@ -1,6 +1,6 @@
 {
-  "appId": "com.beiti.assistant",
-  "appName": "背题助手",
+  "appId": "com.deepquiz.app",
+  "appName": "深题",
   "webDir": "dist",
   "android": {
     "allowMixedContent": true,
