@@ -25,20 +25,8 @@ jobs:
     - name: Build web app
       run: npm run build
       
-    - name: List dist folder
-      run: ls -la dist/
-      
-    - name: Create assets directory
-      run: mkdir -p android/app/src/main/assets/public
-      
-    - name: Clear old web assets
-      run: rm -rf android/app/src/main/assets/public/*
-      
-    - name: Copy web files to Android assets
-      run: cp -r dist/* android/app/src/main/assets/public/
-      
-    - name: Verify copied files
-      run: ls -la android/app/src/main/assets/public/
+    - name: Sync Capacitor Android
+      run: npx cap sync android
       
     - name: Set up JDK 17
       uses: actions/setup-java@v4
