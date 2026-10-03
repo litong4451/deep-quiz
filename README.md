@@ -1,86 +1,78 @@
-# 🎉 深题 - APK 打包就绪！
+# 深题（deep-quiz）
 
-## ⚠️ 重要说明
+一款专注于深度学习的背题应用。基于 React + Vite 构建，支持 Web / Android（Capacitor）/ Electron 多端。
 
-由于当前服务器网络限制，无法直接下载 Gradle 依赖完成构建。但 **100% 的准备工作已全部完成**！
+## 功能特性
 
-你只需要简单的 **2 步** 就能获得 APK：
+- 题库管理：添加题目、分类组织
+- 多种题型：单选（答案点选）、简答、判断
+- 做题模式：翻卡复习 + 下一题快速切换
+- 深色主题图标（`#0F0F0F` + `#E6A054`）
 
----
+## 技术栈
 
-## 📱 立刻获取 APK（只需 5 分钟）
+| 层 | 技术 |
+|---|---|
+| 前端 | React + Vite |
+| 移动端 | Capacitor（Android） |
+| 桌面端 | Electron |
+| CI/CD | GitHub Actions |
 
-### 第一步：下载项目
-把 `/workspace` 整个文件夹下载到你电脑
+## 构建与发版（全自动）
 
-### 第二步：用 Android Studio 打开并构建
+推送到 `main` 分支即自动完成全链路，无需本地 Android 环境：
 
-1. 下载 Android Studio：https://developer.android.com/studio
-2. 打开 Android Studio → 选择 "Open an Existing Project"
-3. 选择项目里的 **`android`** 文件夹
-4. 等待同步完成（首次约 5-10 分钟）
-5. 点击菜单：**Build → Build Bundle(s) / APK(s) → Build APK(s)**
-6. 完成！🎉
+1. 读取 `package.json` 的 `version` 作为版本唯一来源
+2. 自动写入 Android `versionName` / `versionCode`（versionCode = git 提交总数，自动递增）
+3. 构建 APK
+4. 自动打 tag `v{version}`（已存在则跳过）
+5. 自动发布 GitHub Release，上传 `deep-quiz-{version}.apk`
 
-### 第三步：找到 APK
-```
-android/app/build/outputs/apk/debug/app-debug.apk
-```
-传输到手机，安装即可！
+## 发版操作（唯一一步）
 
----
+修改 `package.json` 的 `version`（如 `1.0.0-pro`）→ 推送 main → CI 自动完成构建 / 打 tag / 发布 Release。
 
-## ✅ 已完成的工作
+示例：
 
-- ✅ 完整的 React 深题应用源码
-- ✅ Android 项目配置（`android/` 文件夹）
-- ✅ 所有资源文件、图标、启动画面
-- ✅ Capacitor 配置
-- ✅ GitHub Actions 自动构建配置（`.github/workflows/`）
-- ✅ Gradle 构建脚本
-- ✅ Git 仓库已初始化并提交
-
----
-
-## 🔧 如果你想用 GitHub Actions 自动构建
-
-只需把代码推送到 GitHub，GitHub 会自动帮你构建 APK！
-
-**操作方法：**
 ```bash
-# 在你电脑上
-cd 项目文件夹
-git remote add origin <你的GitHub仓库地址>
-git push -u origin master
+# 本地修改 package.json
+"version": "1.0.0-pro"
+# 推送
+git add package.json && git commit -m "release: 1.0.0-pro" && git push
 ```
 
-然后在 GitHub 仓库的 **Actions** 页面下载构建好的 APK。
+版本含 `-beta` / `-alpha` / `-rc` / `-pre` 时，Release 自动标记为测试版（prerelease）。
 
----
+## 版本档位（收费规划）
 
-## 📂 项目结构
+| 档位 | 版本号 | 定位 |
+|---|---|---|
+| Lite 精简版 | `1.0.0-lite` | 基础免费 |
+| 常规版 | `1.0.0` | 标准功能 |
+| Pro 专业版 | `1.0.0-pro` | 付费增强 |
+| Max 旗舰版 | `1.0.0-max` | 全功能 |
+| Pro Max 顶配版 | `1.0.0-pro-max` | 全功能 + 终身权益 |
+
+详细规范见 [VERSIONING.md](VERSIONING.md)。
+
+## 本地开发
+
+```bash
+npm install
+npm run dev        # 启动 Vite 开发服务器
+npm run build      # 构建 Web 产物到 dist/
+npx cap sync android && cd android && ./gradlew assembleDebug   # 本地构建 APK
+```
+
+## 项目结构
 
 ```
-/workspace/
 ├── src/                     # React 应用源码
-├── android/                 # Android 项目 ⭐ 用这个构建
-│   └── app/
-│       └── build/outputs/apk/debug/  # APK 输出位置
-├── dist/                    # 网页构建文件
-├── .github/workflows/       # GitHub 自动构建配置
+├── android/                 # Android 原生工程（Capacitor）
+├── electron/                # Electron 桌面端
+├── dist/                    # Web 构建产物
+├── .github/workflows/       # CI 自动构建 + 自动发版
+├── VERSIONING.md            # 版本规范与收费档位
 ├── capacitor.config.json    # Capacitor 配置
-└── package.json            # 项目配置
+└── package.json             # 项目配置（版本唯一来源）
 ```
-
----
-
-## 🎯 总结
-
-**你只需要：**
-1. 下载项目到电脑
-2. 用 Android Studio 打开 `android` 文件夹
-3. 点击 "Build APK"
-
-**3 步，5 分钟，获得你的专属深题 APK！** 📱
-
-祝使用愉快！💪
