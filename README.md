@@ -1,15 +1,28 @@
 # 深题（deep-quiz）
 
-一款专注于深度学习的背题应用。基于 React + Vite 构建，支持 Web / Android（Capacitor）/ Electron 多端。
+一款专注于深度学习的背题应用。支持 Web / Android / 桌面端，随时随地刷题复习。
 
-## 功能特性
+## 用户指南
+
+### 功能介绍
 
 - 题库管理：添加题目、分类组织
 - 多种题型：单选（答案点选）、简答、判断
 - 做题模式：翻卡复习 + 下一题快速切换
-- 深色主题图标（`#0F0F0F` + `#E6A054`）
 
-## 技术栈
+### 获取深题
+
+Android 用户请在 GitHub Releases 页面下载最新 APK：
+
+> **Releases**：https://github.com/litong4451/deep-quiz/releases
+
+下载 `deep-quiz-{版本}.apk` 安装即可。测试版本号带有 `-beta` 标记。
+
+---
+
+## 开发者指南
+
+### 技术栈
 
 | 层 | 技术 |
 |---|---|
@@ -18,7 +31,16 @@
 | 桌面端 | Electron |
 | CI/CD | GitHub Actions |
 
-## 构建与发版（全自动）
+### 本地开发
+
+```bash
+npm install
+npm run dev        # 启动 Vite 开发服务器
+npm run build      # 构建 Web 产物到 dist/
+npx cap sync android && cd android && ./gradlew assembleDebug   # 本地构建 APK
+```
+
+### 自动构建与发版
 
 推送到 `main` 分支即自动完成全链路，无需本地 Android 环境：
 
@@ -28,43 +50,19 @@
 4. 自动打 tag `v{version}`（已存在则跳过）
 5. 自动发布 GitHub Release，上传 `deep-quiz-{version}.apk`
 
-## 发版操作（唯一一步）
-
-修改 `package.json` 的 `version`（如 `1.0.0-pro`）→ 推送 main → CI 自动完成构建 / 打 tag / 发布 Release。
-
-示例：
-
-```bash
-# 本地修改 package.json
-"version": "1.0.0-pro"
-# 推送
-git add package.json && git commit -m "release: 1.0.0-pro" && git push
-```
-
 版本含 `-beta` / `-alpha` / `-rc` / `-pre` 时，Release 自动标记为测试版（prerelease）。
 
-## 版本档位（收费规划）
+### 发版操作
 
-| 档位 | 版本号 | 定位 |
-|---|---|---|
-| Lite 精简版 | `1.0.0-lite` | 基础免费 |
-| 常规版 | `1.0.0` | 标准功能 |
-| Pro 专业版 | `1.0.0-pro` | 付费增强 |
-| Max 旗舰版 | `1.0.0-max` | 全功能 |
-| Pro Max 顶配版 | `1.0.0-pro-max` | 全功能 + 终身权益 |
-
-详细规范见 [VERSIONING.md](VERSIONING.md)。
-
-## 本地开发
+修改 `package.json` 的 `version`（如 `1.1.0`）→ 推送 main → CI 自动完成构建 / 打 tag / 发布 Release：
 
 ```bash
-npm install
-npm run dev        # 启动 Vite 开发服务器
-npm run build      # 构建 Web 产物到 dist/
-npx cap sync android && cd android && ./gradlew assembleDebug   # 本地构建 APK
+git add package.json && git commit -m "release: 1.1.0" && git push
 ```
 
-## 项目结构
+详细版本规范见 [VERSIONING.md](VERSIONING.md)。
+
+### 项目结构
 
 ```
 ├── src/                     # React 应用源码
@@ -72,7 +70,8 @@ npx cap sync android && cd android && ./gradlew assembleDebug   # 本地构建 A
 ├── electron/                # Electron 桌面端
 ├── dist/                    # Web 构建产物
 ├── .github/workflows/       # CI 自动构建 + 自动发版
-├── VERSIONING.md            # 版本规范与收费档位
+├── VERSIONING.md            # 版本规范
 ├── capacitor.config.json    # Capacitor 配置
 └── package.json             # 项目配置（版本唯一来源）
 ```
+
