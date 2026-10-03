@@ -2,7 +2,7 @@
   "name": "deep-quiz",
   "productName": "深题",
   "private": true,
-  "version": "1.0.0",
+  "version": "0.1.0-beta",
   "description": "一款专注于深度学习的深题应用",
   "main": "electron/main.js",
   "scripts": {
