@@ -302,10 +302,40 @@ function QuestionModal({ question, onSave, onClose }) {
   )
   const [explanation, setExplanation] = useState(question?.explanation || '')
 
+  const optionList = options.split('\n').map(s => s.trim()).filter(Boolean)
+  const answerList = type === 'multiple'
+    ? answer.split('\n').map(s => s.trim()).filter(Boolean)
+    : [answer.trim()]
+
+  const switchType = (t) => {
+    setType(t)
+    if (t === 'boolean' && !answer.trim()) {
+      setAnswer('正确')
+    }
+  }
+
+  const toggleOption = (opt) => {
+    if (type === 'single') {
+      setAnswer(answer === opt ? '' : opt)
+    } else if (type === 'multiple') {
+      const list = answer.split('\n').map(s => s.trim()).filter(Boolean)
+      const idx = list.indexOf(opt)
+      if (idx >= 0) {
+        list.splice(idx, 1)
+      } else {
+        list.push(opt)
+      }
+      setAnswer(list.join('\n'))
+    }
+  }
+
+  const isOptionSelected = (opt) => answerList.includes(opt)
+
   const handleSubmit = (e) => {
     e.preventDefault()
     if (!qText.trim()) return
 
+    const cleanOptions = options.split('\n').map(s => s.trim()).filter(Boolean)
     let processedAnswer = answer.trim()
     if (type === 'multiple') {
       processedAnswer = answer.split('\n').map(s => s.trim()).filter(Boolean)
@@ -314,13 +344,21 @@ function QuestionModal({ question, onSave, onClose }) {
     const data = {
       type,
       question: qText.trim(),
-      options: type === 'boolean' ? undefined : options.split('\n').map(s => s.trim()).filter(Boolean),
+      options: type === 'boolean' || type === 'short' ? undefined : cleanOptions,
       answer: processedAnswer,
       explanation: explanation.trim() || undefined
     }
 
     onSave(data)
   }
+
+  const canSave = qText.trim() && (
+    type === 'boolean'
+      ? !!answer.trim()
+      : type === 'short'
+        ? !!answer.trim()
+        : optionList.length >= 2 && answerList.length > 0
+  )
 
   return (
     <div className="modal-overlay" onClick={onClose}>
@@ -330,14 +368,14 @@ function QuestionModal({ question, onSave, onClose }) {
           <div className="form-group">
             <label>题目类型</label>
             <div className="type-selector">
-              {['single', 'multiple', 'boolean'].map(t => (
+              {['single', 'multiple', 'boolean', 'short'].map(t => (
                 <button
                   key={t}
                   type="button"
                   className={`type-btn ${type === t ? 'active' : ''}`}
-                  onClick={() => setType(t)}
+                  onClick={() => switchType(t)}
                 >
-                  {t === 'single' ? '单选' : t === 'multiple' ? '多选' : '判断'}
+                  {t === 'single' ? '单选' : t === 'multiple' ? '多选' : t === 'boolean' ? '判断' : '简答'}
                 </button>
               ))}
             </div>
@@ -354,7 +392,7 @@ function QuestionModal({ question, onSave, onClose }) {
             />
           </div>
 
-          {type !== 'boolean' && (
+          {(type === 'single' || type === 'multiple') && (
             <div className="form-group">
               <label>选项（每行一个）</label>
               <textarea
@@ -363,26 +401,80 @@ function QuestionModal({ question, onSave, onClose }) {
                 placeholder={"选项A\n选项B\n选项C\n选项D"}
                 rows={4}
               />
+              {optionList.length >= 2 && (
+                <div className="option-pick">
+                  <span className="option-pick-label">点选正确答案：</span>
+                  <div className="option-pick-list">
+                    {optionList.map((opt, idx) => (
+                      <button
+                        key={idx}
+                        type="button"
+                        className={`option-pick-btn ${isOptionSelected(opt) ? 'active' : ''}`}
+                        onClick={() => toggleOption(opt)}
+                      >
+                        {String.fromCharCode(65 + idx)}. {opt}
+                      </button>
+                    ))}
+                  </div>
+                </div>
+              )}
             </div>
           )}
 
           <div className="form-group">
-            <label>{type === 'multiple' ? '正确答案（每行一个）' : '正确答案'}</label>
-            {type === 'multiple' ? (
-              <textarea
-                value={answer}
-                onChange={e => setAnswer(e.target.value)}
-                placeholder="正确答案（每行一个，与选项对应）"
-                rows={2}
-              />
-            ) : type === 'single' ? (
+            <label>
+              {type === 'multiple' ? '正确答案（点选，可多选）'
+                : type === 'boolean' ? '正确答案'
+                : type === 'short' ? '参考答案'
+                : '正确答案（点选）'}
+            </label>
+            {type === 'single' && (
+              <div className="option-pick">
+                <div className="option-pick-list">
+                  {optionList.map((opt, idx) => (
+                    <button
+                      key={idx}
+                      type="button"
+                      className={`option-pick-btn ${isOptionSelected(opt) ? 'active' : ''}`}
+                      onClick={() => toggleOption(opt)}
+                    >
+                      {String.fromCharCode(65 + idx)}. {opt}
+                    </button>
+                  ))}
+                  {optionList.length < 2 && (
+                    <span className="option-pick-hint">先在上方填写至少两个选项</span>
+                  )}
+                </div>
+              </div>
+            )}
+            {type === 'multiple' && (
+              <div className="option-pick">
+                <div className="option-pick-list">
+                  {optionList.map((opt, idx) => (
+                    <button
+                      key={idx}
+                      type="button"
+                      className={`option-pick-btn ${isOptionSelected(opt) ? 'active' : ''}`}
+                      onClick={() => toggleOption(opt)}
+                    >
+                      {String.fromCharCode(65 + idx)}. {opt}
+                    </button>
+                  ))}
+                  {optionList.length < 2 && (
+                    <span className="option-pick-hint">先在上方填写至少两个选项</span>
+                  )}
+                </div>
+              </div>
+            )}
+            {type === 'short' && (
               <input
                 type="text"
                 value={answer}
                 onChange={e => setAnswer(e.target.value)}
-                placeholder="输入正确答案"
+                placeholder="输入参考答案"
               />
-            ) : (
+            )}
+            {type === 'boolean' && (
               <div className="boolean-answer">
                 <button type="button" className={`bool-btn ${answer === '正确' ? 'active' : ''}`} onClick={() => setAnswer('正确')}>正确</button>
                 <button type="button" className={`bool-btn ${answer === '错误' ? 'active' : ''}`} onClick={() => setAnswer('错误')}>错误</button>
@@ -402,7 +494,7 @@ function QuestionModal({ question, onSave, onClose }) {
 
           <div className="modal-actions">
             <button type="button" className="btn-cancel" onClick={onClose}>取消</button>
-            <button type="submit" className="btn-save" disabled={!qText.trim() || !answer.trim()}>保存</button>
+            <button type="submit" className="btn-save" disabled={!canSave}>保存</button>
           </div>
         </form>
       </div>

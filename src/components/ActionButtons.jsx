@@ -1,7 +1,7 @@
 import React from 'react'
 import './ActionButtons.css'
 
-function ActionButtons({ onSelect, disabled }) {
+function ActionButtons({ onSelect, disabled, onNext }) {
   const buttons = [
     {
       id: 'unknown',
@@ -25,6 +25,15 @@ function ActionButtons({ onSelect, disabled }) {
 
   return (
     <div className="action-buttons">
+      {onNext && (
+        <button
+          className="action-btn btn-next"
+          onClick={onNext}
+        >
+          <span className="btn-icon">▶</span>
+          <span className="btn-label">下一题</span>
+        </button>
+      )}
       {buttons.map(btn => (
         <button
           key={btn.id}

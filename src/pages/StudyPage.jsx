@@ -31,6 +31,11 @@ function StudyPage() {
     }
   }
 
+  const handleNext = () => {
+    if (!currentQuestion) return
+    dispatch({ type: 'NEXT_QUESTION' })
+  }
+
   if (!currentBank) {
     return (
       <div className="study-page">
@@ -88,6 +93,7 @@ function StudyPage() {
       <div className="study-actions">
         <ActionButtons
           onSelect={handleSelect}
+          onNext={handleNext}
           disabled={!state.isFlipped}
         />
       </div>
